@@ -233,9 +233,11 @@
                 <span>
                     我已閱讀、瞭解並同意本協議及
                     <a
-                        href="https://privacy-policy-nu-ten.vercel.app/?from=agreement"
+                        href="https://privacy-policy-nu-ten.vercel.app/"
                         target="_blank"
                         rel="noopener noreferrer"
+                        class="policy-button"
+                        onclick="unlockAgreement()"
                     >
                         《隱私權政策》
                     </a>
@@ -271,168 +273,143 @@
 
     </main>
 
-
-    <!-- =========================
-         JavaScript
-    ========================== -->
-
     <script>
 
-        /*
-         * 隱私權政策網址
-         */
+            /*
+            * 元件
+            */
 
-        const privacyPolicyUrl =
-            "https://privacy-policy-nu-ten.vercel.app/";
+            const managerName =
+                document.getElementById("managerName");
 
+            const agreeCheckbox =
+                document.getElementById("agreeCheckbox");
 
-        /*
-         * 元件
-         */
+            const submitButton =
+                document.getElementById("submitButton");
 
-        const managerName =
-            document.getElementById("managerName");
-
-        const agreeCheckbox =
-            document.getElementById("agreeCheckbox");
-
-        const submitButton =
-            document.getElementById("submitButton");
-
-        const readMessage =
-            document.getElementById("readMessage");
+            const readMessage =
+                document.getElementById("readMessage");
 
 
-        /*
-         * 判斷是否已經開啟隱私權政策
-         *
-         * 第一版先使用 localStorage
-         */
+            /*
+            * 點擊「隱私權政策」
+            *
+            * 開啟隱私權政策後，
+            * 立即解鎖 Checkbox
+            */
 
-        const privacyRead =
-            localStorage.getItem(
-                "privacy_policy_read"
+            function unlockAgreement() {
+
+                agreeCheckbox.disabled = false;
+
+                readMessage.textContent =
+                    "已開啟隱私權政策，請確認後勾選。";
+
+                readMessage.classList.add("success");
+
+            }
+
+
+            /*
+            * 檢查表單
+            */
+
+            function checkForm() {
+
+                const nameFilled =
+                    managerName.value.trim().length > 0;
+
+                const agreed =
+                    agreeCheckbox.checked;
+
+                submitButton.disabled =
+                    !(nameFilled && agreed);
+
+            }
+
+
+            /*
+            * 姓名輸入
+            */
+
+            managerName.addEventListener(
+                "input",
+                checkForm
             );
 
 
-        /*
-         * 如果已經閱讀過
-         */
+            /*
+            * Checkbox
+            */
 
-        if (privacyRead === "true") {
-
-            agreeCheckbox.disabled = false;
-
-            readMessage.textContent =
-                "已完成隱私權政策閱讀，請確認並送出。";
-
-            readMessage.classList.add("success");
-
-        }
+            agreeCheckbox.addEventListener(
+                "change",
+                checkForm
+            );
 
 
-        /*
-         * 姓名 / Checkbox 狀態
-         */
+            /*
+            * 送出
+            */
 
-        function checkForm() {
+            submitButton.addEventListener(
+                "click",
+                function () {
 
-            const nameFilled =
-                managerName.value.trim().length > 0;
-
-            const agreed =
-                agreeCheckbox.checked;
-
-            const hasRead =
-                localStorage.getItem(
-                    "privacy_policy_read"
-                ) === "true";
+                    const name =
+                        managerName.value.trim();
 
 
-            submitButton.disabled =
-                !(nameFilled && agreed && hasRead);
+                    if (!name) {
 
-        }
+                        alert("請輸入管理人姓名。");
 
+                        return;
 
-        /*
-         * 姓名輸入
-         */
-
-        managerName.addEventListener(
-            "input",
-            checkForm
-        );
+                    }
 
 
-        /*
-         * Checkbox
-         */
+                    if (!agreeCheckbox.checked) {
 
-        agreeCheckbox.addEventListener(
-            "change",
-            checkForm
-        );
+                        alert("請勾選同意。");
 
+                        return;
 
-        /*
-         * 送出
-         */
-
-        submitButton.addEventListener(
-            "click",
-            function () {
-
-                const name =
-                    managerName.value.trim();
+                    }
 
 
-                if (!name) {
+                    /*
+                    * 完成
+                    */
 
-                    alert("請輸入管理人姓名。");
+                    alert(
+                        "已完成協議確認，謝謝您的配合。"
+                    );
 
-                    return;
+
+                    console.log({
+
+                        manager_name:
+                            name,
+
+                        agreement_version:
+                            "2026-08-21",
+
+                        privacy_policy_version:
+                            "2026-08-21",
+
+                        agreed_at:
+                            new Date().toISOString()
+
+                    });
 
                 }
+            );
 
+        </script>
 
-                if (!agreeCheckbox.checked) {
-
-                    alert("請勾選同意。");
-
-                    return;
-
-                }
-
-
-                /*
-                 * 目前先顯示完成訊息
-                 *
-                 * 之後再接 Supabase API
-                 */
-
-                alert(
-                    "已完成協議確認，謝謝您的配合。"
-                );
-
-
-                console.log({
-                    manager_name: name,
-
-                    agreement_version:
-                        "2026-08-21",
-
-                    privacy_policy_version:
-                        "2026-08-21",
-
-                    agreed_at:
-                        new Date().toISOString()
-                });
-
-            }
-        );
-
-    </script>
+   
 
 </body>
 
