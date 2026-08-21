@@ -270,144 +270,222 @@
         </footer>
 
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
 
-            /*
-            * 元件
-            */
+        const SUPABASE_URL =
+            "https://aafxuwhghphlbetpuaqg.supabase.co/rest/v1/";
 
-            const managerName =
-                document.getElementById("managerName");
-
-            const agreeCheckbox =
-                document.getElementById("agreeCheckbox");
-
-            const submitButton =
-                document.getElementById("submitButton");
-
-            const readMessage =
-                document.getElementById("readMessage");
+        const SUPABASE_KEY =
+            "sb_publishable_C6pjLwHXZyD0xQIbclvzEg_tAjSyfyf";
 
 
-            /*
-            * 點擊「隱私權政策」
-            *
-            * 開啟隱私權政策後，
-            * 立即解鎖 Checkbox
-            */
-
-            function unlockAgreement() {
-
-                agreeCheckbox.disabled = false;
-
-                readMessage.textContent =
-                    "已開啟隱私權政策，請確認後勾選。";
-
-                readMessage.classList.add("success");
-
-            }
-
-
-            /*
-            * 檢查表單
-            */
-
-            function checkForm() {
-
-                const nameFilled =
-                    managerName.value.trim().length > 0;
-
-                const agreed =
-                    agreeCheckbox.checked;
-
-                submitButton.disabled =
-                    !(nameFilled && agreed);
-
-            }
-
-
-            /*
-            * 姓名輸入
-            */
-
-            managerName.addEventListener(
-                "input",
-                checkForm
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
             );
 
 
-            /*
-            * Checkbox
-            */
+        const managerName =
+            document.getElementById("managerName");
 
-            agreeCheckbox.addEventListener(
-                "change",
-                checkForm
+        const agreeCheckbox =
+            document.getElementById("agreeCheckbox");
+
+        const submitButton =
+            document.getElementById("submitButton");
+
+        const readMessage =
+            document.getElementById("readMessage");
+
+
+        /*
+        * 點擊隱私權政策
+        */
+
+        function unlockAgreement() {
+
+            localStorage.setItem(
+                "privacy_policy_read",
+                "true"
             );
 
+            agreeCheckbox.disabled = false;
 
-            /*
-            * 送出
-            */
+            readMessage.textContent =
+                "已開啟隱私權政策，請確認後勾選。";
 
-            submitButton.addEventListener(
-                "click",
-                function () {
+            readMessage.classList.add("success");
 
-                    const name =
-                        managerName.value.trim();
+        }
 
 
-                    if (!name) {
+        /*
+        * 頁面載入時確認是否看過
+        */
 
-                        alert("請輸入管理人姓名。");
+        if (
+            localStorage.getItem(
+                "privacy_policy_read"
+            ) === "true"
+        ) {
+
+            agreeCheckbox.disabled = false;
+
+            readMessage.textContent =
+                "已開啟隱私權政策，請確認後勾選。";
+
+            readMessage.classList.add("success");
+
+        }
+
+
+        /*
+        * 檢查表單
+        */
+
+        function checkForm() {
+
+            const nameFilled =
+                managerName.value.trim().length > 0;
+
+            const agreed =
+                agreeCheckbox.checked;
+
+            submitButton.disabled =
+                !(nameFilled && agreed);
+
+        }
+
+
+        managerName.addEventListener(
+            "input",
+            checkForm
+        );
+
+
+        agreeCheckbox.addEventListener(
+            "change",
+            checkForm
+        );
+
+
+        /*
+        * 送出
+        */
+
+        submitButton.addEventListener(
+            "click",
+            async function () {
+
+                const name =
+                    managerName.value.trim();
+
+
+                if (!name) {
+
+                    alert(
+                        "請輸入管理人姓名。"
+                    );
+
+                    return;
+
+                }
+
+
+                if (!agreeCheckbox.checked) {
+
+                    alert(
+                        "請勾選同意。"
+                    );
+
+                    return;
+
+                }
+
+
+                submitButton.disabled = true;
+
+                submitButton.textContent =
+                    "送出中...";
+
+
+                try {
+
+                    const {
+                        data,
+                        error
+                    } = await supabaseClient
+                        .from("manager_agreements")
+                        .insert([
+                            {
+                                manager_name:
+                                    name,
+
+                                agreement_version:
+                                    "2026-08-21",
+
+                                privacy_policy_version:
+                                    "2026-08-21",
+
+                                agreed_at:
+                                    new Date().toISOString()
+                            }
+                        ])
+                        .select();
+
+
+                    if (error) {
+
+                        console.error(error);
+
+                        alert(
+                            "資料送出失敗，請稍後再試。"
+                        );
+
+                        submitButton.disabled = false;
+
+                        submitButton.textContent =
+                            "送出";
 
                         return;
 
                     }
 
 
-                    if (!agreeCheckbox.checked) {
+                    console.log(
+                        "協議資料已儲存：",
+                        data
+                    );
 
-                        alert("請勾選同意。");
-
-                        return;
-
-                    }
-
-
-                    /*
-                    * 完成
-                    */
 
                     alert(
                         "已完成協議確認，謝謝您的配合。"
                     );
 
 
-                    console.log({
+                } catch (error) {
 
-                        manager_name:
-                            name,
+                    console.error(error);
 
-                        agreement_version:
-                            "2026-08-21",
+                    alert(
+                        "系統發生錯誤，請稍後再試。"
+                    );
 
-                        privacy_policy_version:
-                            "2026-08-21",
+                    submitButton.disabled = false;
 
-                        agreed_at:
-                            new Date().toISOString()
-
-                    });
+                    submitButton.textContent =
+                        "送出";
 
                 }
-            );
 
-        </script>
+            }
+        );
 
-   
+    </script>
+
 
 </body>
 
