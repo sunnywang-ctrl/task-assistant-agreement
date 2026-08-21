@@ -405,13 +405,6 @@
 
                 }
 
-
-                submitButton.disabled = true;
-
-                submitButton.textContent =
-                    "送出中...";
-
-
                 try {
 
                     const {
@@ -421,17 +414,10 @@
                         .from("manager_agreements")
                         .insert([
                             {
-                                manager_name:
-                                    name,
-
-                                agreement_version:
-                                    "2026-08-21",
-
-                                privacy_policy_version:
-                                    "2026-08-21",
-
-                                agreed_at:
-                                    new Date().toISOString()
+                                manager_name:name,
+                                agreement_version:"2026-08-21",
+                                privacy_policy_version:"2026-08-21",
+                                agreed_at:new Date().toISOString()
                             }
                         ])
                      
@@ -465,6 +451,11 @@
                     alert(
                         "已完成協議確認，謝謝您的配合。"
                     );
+                     // 清除閱讀紀錄
+                    localStorage.removeItem("privacy_policy_read");
+
+                    // 重新整理頁面
+                    location.reload();
 
 
                 } catch (error) {
