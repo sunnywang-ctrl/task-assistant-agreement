@@ -1,0 +1,556 @@
+/* =========================
+   基本設定
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    background-color: #f3f4f6;
+    color: #333333;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        Arial,
+        sans-serif;
+
+    line-height: 1.8;
+}
+
+
+/* =========================
+   頂部 Header
+========================= */
+
+.top-header {
+    width: 100%;
+    height: 70px;
+
+    background-color: #02a325;
+
+    display: flex;
+    align-items: center;
+}
+
+.top-header-inner {
+    width: 100%;
+    max-width: 900px;
+
+    margin: 0 auto;
+    padding: 0 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.brand-name {
+    color: #ffffff;
+
+    font-size: 30px;
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================
+   主要內容卡片
+========================= */
+
+.container {
+    width: calc(100% - 40px);
+    max-width: 900px;
+
+    margin: 45px auto;
+
+    padding: 50px 55px;
+
+    background-color: #ffffff;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.04),
+        0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+
+/* =========================
+   頁面標題
+========================= */
+
+.page-header {
+    margin-bottom: 45px;
+    padding-bottom: 25px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.page-header h1 {
+    margin: 0 0 10px;
+
+    color: #02a325;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
+}
+
+.update-date {
+    margin: 0;
+
+    color: #888888;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   Section
+========================= */
+
+section {
+    margin-bottom: 42px;
+}
+
+
+/* =========================
+   標題
+========================= */
+
+h2 {
+    margin: 0 0 18px;
+
+    padding-bottom: 8px;
+
+    color: #222222;
+
+    font-size: 21px;
+    font-weight: 700;
+
+    border-bottom: 2px solid #eeeeee;
+}
+
+
+/* =========================
+   文字
+========================= */
+
+p {
+    margin: 0 0 14px;
+
+    font-size: 16px;
+}
+
+strong {
+    color: #222222;
+    font-weight: 700;
+}
+
+
+/* =========================
+   清單
+========================= */
+
+ul {
+    margin: 12px 0 18px;
+
+    padding-left: 28px;
+}
+
+li {
+    margin-bottom: 8px;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   隱私權政策連結區塊
+========================= */
+
+.privacy-link-box {
+    margin-top: 25px;
+    padding: 20px 22px;
+
+    background-color: #f7faf7;
+
+    border: 1px solid #dcefe0;
+
+    border-left: 4px solid #02a325;
+
+    border-radius: 8px;
+}
+
+.privacy-link-box p {
+    margin-bottom: 8px;
+}
+
+.privacy-link-box a {
+    color: #02a325;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+.privacy-link-box a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   隱私權政策按鈕
+========================= */
+
+.policy-button {
+    display: inline-block;
+
+    margin-top: 8px;
+    padding: 11px 22px;
+
+    background-color: #02a325;
+    color: #ffffff;
+
+    border-radius: 7px;
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.1s ease;
+}
+
+.policy-button:hover {
+    background-color: #018a20;
+}
+
+.policy-button:active {
+    transform: translateY(1px);
+}
+
+
+/* =========================
+   管理人確認區域
+========================= */
+
+.agreement-section {
+    margin-top: 50px;
+    padding: 28px;
+
+    background-color: #fafafa;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+}
+
+
+/* =========================
+   表單
+========================= */
+
+.form-group {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #333333;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    background-color: #ffffff;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    color: #333333;
+
+    font-family: inherit;
+    font-size: 16px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #02a325;
+
+    box-shadow:
+        0 0 0 3px rgba(2, 163, 37, 0.10);
+}
+
+.form-group input::placeholder {
+    color: #aaaaaa;
+}
+
+
+/* =========================
+   閱讀提示
+========================= */
+
+.read-message {
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    color: #888888;
+
+    font-size: 14px;
+}
+
+.read-message.success {
+    color: #02a325;
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   Checkbox
+========================= */
+
+.checkbox-row {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin-top: 15px;
+
+    color: #444444;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.checkbox-row input {
+    width: 18px;
+    height: 18px;
+
+    margin-top: 5px;
+
+    accent-color: #02a325;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+}
+
+.checkbox-row input:disabled {
+    cursor: not-allowed;
+}
+
+.checkbox-row a {
+    color: #02a325;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.checkbox-row a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   送出按鈕
+========================= */
+
+#submitButton {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 13px 20px;
+
+    background-color: #02a325;
+    color: #ffffff;
+
+    border: none;
+
+    border-radius: 7px;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+#submitButton:hover:not(:disabled) {
+    background-color: #018a20;
+}
+
+#submitButton:disabled {
+    background-color: #b8c7ba;
+
+    cursor: not-allowed;
+
+    opacity: 0.8;
+}
+
+
+/* =========================
+   Footer
+========================= */
+
+footer {
+    margin-top: 50px;
+    padding-top: 25px;
+
+    border-top: 1px solid #e5e7eb;
+
+    text-align: center;
+
+    color: #888888;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   手機版
+========================= */
+
+@media (max-width: 768px) {
+
+    body {
+        font-size: 15px;
+    }
+
+
+    /* Header */
+
+    .top-header {
+        height: 64px;
+    }
+
+    .top-header-inner {
+        padding: 0 18px;
+    }
+
+    .brand-name {
+        font-size: 25px;
+    }
+
+
+    /* 主卡片 */
+
+    .container {
+        width: calc(100% - 24px);
+
+        margin: 15px auto;
+
+        padding: 32px 22px;
+
+        border-radius: 12px;
+
+        box-shadow:
+            0 2px 8px rgba(0, 0, 0, 0.04),
+            0 4px 15px rgba(0, 0, 0, 0.04);
+    }
+
+
+    /* 標題 */
+
+    .page-header {
+        margin-bottom: 35px;
+
+        padding-bottom: 22px;
+    }
+
+    .page-header h1 {
+        font-size: 26px;
+    }
+
+    .update-date {
+        font-size: 13px;
+    }
+
+
+    /* Section */
+
+    section {
+        margin-bottom: 35px;
+    }
+
+
+    /* H2 */
+
+    h2 {
+        font-size: 19px;
+    }
+
+
+    /* 文字 */
+
+    p,
+    li {
+        font-size: 15px;
+    }
+
+
+    /* 管理人確認 */
+
+    .agreement-section {
+        padding: 22px 18px;
+    }
+
+
+    /* Checkbox */
+
+    .checkbox-row {
+        font-size: 14px;
+    }
+
+
+    /* 按鈕 */
+
+    #submitButton {
+        padding: 13px 18px;
+
+        font-size: 15px;
+    }
+}
