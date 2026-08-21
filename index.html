@@ -439,19 +439,20 @@
 
                     if (error) {
 
-                        console.error(error);
+                        console.error("Supabase Error:", error);
 
                         alert(
-                            "資料送出失敗，請稍後再試。"
+                            "送出失敗\n\n" +
+                            "message: " + error.message +
+                            "\n\ncode: " + error.code +
+                            "\n\ndetails: " + error.details +
+                            "\n\nhint: " + error.hint
                         );
 
                         submitButton.disabled = false;
-
-                        submitButton.textContent =
-                            "送出";
+                        submitButton.textContent = "送出";
 
                         return;
-
                     }
 
 
