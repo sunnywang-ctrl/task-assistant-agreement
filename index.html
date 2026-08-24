@@ -211,22 +211,43 @@
             </h2>
 
 
-            <!-- 姓名 -->
+           <!-- LINE 登入 -->
 
-            <div class="form-group">
+        <div class="form-group">
 
-                <label for="managerName">
-                    管理人姓名
-                </label>
+            <button
+                type="button"
+                id="lineLoginButton"
+            >
+                使用 LINE 登入
+            </button>
 
-                <input
-                    type="text"
-                    id="managerName"
-                    placeholder="請輸入您的姓名"
-                    maxlength="50"
-                >
+            <p
+                id="lineLoginStatus"
+                class="read-message"
+            >
+                尚未登入 LINE
+            </p>
 
-            </div>
+        </div>
+
+
+        <!-- 姓名 -->
+
+        <div class="form-group">
+
+            <label for="managerName">
+                管理人姓名
+            </label>
+
+            <input
+                type="text"
+                id="managerName"
+                placeholder="請輸入您的姓名"
+                maxlength="50"
+            >
+
+        </div>
 
 
             <!-- 閱讀完成提示 -->
@@ -305,7 +326,12 @@
                 SUPABASE_URL,
                 SUPABASE_KEY
             );
+        const lineLoginButton =document.getElementById("lineLoginButton");
 
+        const lineLoginStatus =document.getElementById("lineLoginStatus");
+
+        let lineUserId = null;
+        let lineDisplayName = null;
 
         const managerName =
             document.getElementById("managerName");
@@ -318,8 +344,87 @@
 
         const readMessage =
             document.getElementById("readMessage");
+        
+        /** LINE Login*/
+
+        lineLoginButton.addEventListener(
+            "click",
+            function () {
+
+                const callbackUrl =
+                    "https://aafxuwhghphlbetpuaqg.supabase.co/functions/v1/line-login";
+
+                const loginUrl =
+                    "https://access.line.me/oauth2/v2.1/authorize" +
+                    "?response_type=code" +
+                    "&client_id=2011221989" +
+                    "&redirect_uri=" +
+                    encodeURIComponent(callbackUrl) +
+                    "&state=login" +
+                    "&scope=profile";
+
+                window.location.href = loginUrl;
+
+            }
+        );
+
+        /* * 讀取 LINE Login 回傳資料*/
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const returnedLineUserId =
+            urlParams.get("line_user_id");
+
+        const returnedLineDisplayName =
+            urlParams.get("line_display_name");
 
 
+        if (returnedLineUserId) {
+
+            lineUserId =
+                returnedLineUserId;
+
+            lineDisplayName =
+                returnedLineDisplayName || "";
+
+
+            lineLoginStatus.textContent =
+                "LINE 登入成功：" +
+                lineDisplayName;
+
+
+            lineLoginStatus.classList.add(
+                "success"
+            );
+
+
+            // 如果 LINE 有顯示名稱，
+            // 自動帶入姓名欄位
+            if (
+                lineDisplayName &&
+                !managerName.value
+            ) {
+
+                managerName.value =
+                    lineDisplayName;
+
+            }
+
+
+            checkForm();
+
+
+            // 清掉 URL 上的個資
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+
+        }
         /*
         * 點擊隱私權政策
         */
@@ -366,15 +471,16 @@
         */
 
         function checkForm() {
-
-            const nameFilled =
-                managerName.value.trim().length > 0;
-
-            const agreed =
-                agreeCheckbox.checked;
+            const nameFilled =managerName.value.trim().length > 0;
+            const agreed =agreeCheckbox.checked;
+            const lineLoggedIn =!!lineUserId;
 
             submitButton.disabled =
-                !(nameFilled && agreed);
+                !(
+                    lineLoggedIn &&
+                    nameFilled &&
+                    agreed
+                );
 
         }
 
@@ -401,7 +507,13 @@
 
                 const name =
                     managerName.value.trim();
-
+                
+                if (!lineUserId) {
+                    alert(
+                        "請先使用 LINE 登入。"
+                    );
+                    return;
+                }
 
                 if (!name) {
 
@@ -433,13 +545,15 @@
                         .from("manager_agreements")
                         .insert([
                             {
-                                manager_name:name,
-                                agreement_version:"2026-08-21",
-                                privacy_policy_version:"2026-08-21",
-                                agreed_at:new Date().toISOString()
+                                manager_name: name,
+                                line_user_id: lineUserId,
+                                line_display_name: lineDisplayName,
+                                agreement_version: "2026-08-21",
+                                privacy_policy_version: "2026-08-21",
+                                agreed_at: new Date().toISOString()
                             }
                         ])
-                     
+                                            
 
 
                     if (error) {
