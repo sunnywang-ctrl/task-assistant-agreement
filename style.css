@@ -311,18 +311,24 @@ li {
     cursor: not-allowed;
 }
 
-.checkbox-row a {
-    color: #02a325;
 
-    font-weight: 600;
+.policy-button {
+    color: #222222;
+
+    font-weight: 700;
 
     text-decoration: none;
 }
 
-.checkbox-row a:hover {
+.policy-button:hover {
+    color: #222222;
+
     text-decoration: underline;
 }
 
+.policy-button:visited {
+    color: #222222;
+}
 
 /* =========================
    送出按鈕
