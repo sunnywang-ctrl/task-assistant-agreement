@@ -350,11 +350,14 @@
         }
        
 
-        /* * 讀取 LINE Login 回傳資料*/
+        /* =========================
+        讀取 LINE Login 回傳資料
+        ========================= */
+
         const urlParams =
             new URLSearchParams(
                 window.location.search
-        );
+            );
 
         const returnedLineUserId =
             urlParams.get("line_user_id");
@@ -363,11 +366,11 @@
             urlParams.get("line_display_name");
 
 
-        if (returnedLineUserId) {
+        /* =========================
+        1. LINE Login 剛登入成功
+        ========================= */
 
-            // =========================
-            // LINE 登入成功
-            // =========================
+        if (returnedLineUserId) {
 
             lineUserId =
                 returnedLineUserId;
@@ -376,9 +379,49 @@
                 returnedLineDisplayName || "";
 
 
+            // 儲存 LINE 登入資訊
+            sessionStorage.setItem(
+                "line_user_id",
+                lineUserId
+            );
+
+            sessionStorage.setItem(
+                "line_display_name",
+                lineDisplayName
+            );
+
+        }
+
+
+        /* =========================
+        2. 如果不是剛登入
+            就從 sessionStorage 取
+        ========================= */
+
+        else {
+
+            lineUserId =
+                sessionStorage.getItem(
+                    "line_user_id"
+                );
+
+            lineDisplayName =
+                sessionStorage.getItem(
+                    "line_display_name"
+                );
+
+        }
+
+
+        /* =========================
+        3. 已經有 LINE 身分
+        ========================= */
+
+        if (lineUserId) {
+
             lineLoginStatus.textContent =
                 "LINE 登入成功：" +
-                lineDisplayName;
+                (lineDisplayName || "");
 
 
             lineLoginStatus.classList.add(
@@ -402,23 +445,27 @@
             checkForm();
 
 
-            // =========================
-            // 清除 URL 中的 LINE 個資
-            // =========================
+            // 如果是 LINE Login 回來的
+            // 清除網址上的個資
+            if (returnedLineUserId) {
 
-            window.history.replaceState(
-                {},
-                document.title,
-                window.location.pathname
-            );
+                window.history.replaceState(
+                    {},
+                    document.title,
+                    window.location.pathname
+                );
 
+            }
 
-        } else {
+        }
+        /* =========================
+        4. 完全沒有 LINE 登入
+        ========================= */
 
-            // =========================
-            // 尚未登入
-            // 自動啟動 LINE Login
-            // =========================
+        else {
+
+            lineLoginStatus.textContent =
+                "正在確認 LINE 身分...";
 
             startLineLogin();
 
