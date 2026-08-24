@@ -208,30 +208,17 @@
 
             <h2>
                 五、管理人確認
-            </h2>
-
-
-           <!-- LINE 登入 -->
-
+            </h2>     
         <div class="form-group">
-
-            <button
-                type="button"
-                id="lineLoginButton"
-            >
-                使用 LINE 登入
-            </button>
 
             <p
                 id="lineLoginStatus"
                 class="read-message"
             >
-                尚未登入 LINE
+                正在確認 LINE 身分...
             </p>
 
         </div>
-
-
         <!-- 姓名 -->
 
         <div class="form-group">
@@ -326,8 +313,6 @@
                 SUPABASE_URL,
                 SUPABASE_KEY
             );
-        const lineLoginButton =document.getElementById("lineLoginButton");
-
         const lineLoginStatus =document.getElementById("lineLoginStatus");
 
         let lineUserId = null;
@@ -347,33 +332,29 @@
         
         /** LINE Login*/
 
-        lineLoginButton.addEventListener(
-            "click",
-            function () {
+        function startLineLogin() {
 
-                const callbackUrl =
-                    "https://aafxuwhghphlbetpuaqg.supabase.co/functions/v1/line-login";
+            const callbackUrl =
+                "https://aafxuwhghphlbetpuaqg.supabase.co/functions/v1/line-login";
 
-                const loginUrl =
-                    "https://access.line.me/oauth2/v2.1/authorize" +
-                    "?response_type=code" +
-                    "&client_id=2011221989" +
-                    "&redirect_uri=" +
-                    encodeURIComponent(callbackUrl) +
-                    "&state=login" +
-                    "&scope=profile";
+            const loginUrl =
+                "https://access.line.me/oauth2/v2.1/authorize" +
+                "?response_type=code" +
+                "&client_id=2011221989" +
+                "&redirect_uri=" +
+                encodeURIComponent(callbackUrl) +
+                "&state=login" +
+                "&scope=profile";
 
-                window.location.href = loginUrl;
-
-            }
-        );
+            window.location.href = loginUrl;
+        }
+       
 
         /* * 讀取 LINE Login 回傳資料*/
-
         const urlParams =
             new URLSearchParams(
                 window.location.search
-            );
+        );
 
         const returnedLineUserId =
             urlParams.get("line_user_id");
@@ -383,6 +364,10 @@
 
 
         if (returnedLineUserId) {
+
+            // =========================
+            // LINE 登入成功
+            // =========================
 
             lineUserId =
                 returnedLineUserId;
@@ -401,8 +386,7 @@
             );
 
 
-            // 如果 LINE 有顯示名稱，
-            // 自動帶入姓名欄位
+            // LINE 顯示名稱自動帶入姓名
             if (
                 lineDisplayName &&
                 !managerName.value
@@ -414,15 +398,29 @@
             }
 
 
+            // 檢查表單
             checkForm();
 
 
-            // 清掉 URL 上的個資
+            // =========================
+            // 清除 URL 中的 LINE 個資
+            // =========================
+
             window.history.replaceState(
                 {},
                 document.title,
                 window.location.pathname
             );
+
+
+        } else {
+
+            // =========================
+            // 尚未登入
+            // 自動啟動 LINE Login
+            // =========================
+
+            startLineLogin();
 
         }
         /*
@@ -509,11 +507,11 @@
                     managerName.value.trim();
                 
                 if (!lineUserId) {
-                    alert(
-                        "請先使用 LINE 登入。"
-                    );
-                    return;
-                }
+                alert(
+                    "請先使用 LINE 登入。"
+                );
+                return;
+            }
 
                 if (!name) {
 
