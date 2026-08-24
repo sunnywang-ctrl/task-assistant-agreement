@@ -184,7 +184,7 @@ li {
 
 
 /* =========================
-   管理人確認區域
+   管理員確認區域
 ========================= */
 
 .agreement-section {
@@ -294,6 +294,16 @@ li {
     cursor: pointer;
 }
 
+.mobile-read-warning {
+    display: none;
+
+    margin-top: 8px;
+    margin-bottom: 0;
+
+    color: #888888;
+
+    font-size: 13px;
+}
 .checkbox-row input {
     width: 18px;
     height: 18px;
@@ -472,7 +482,7 @@ footer {
     }
 
 
-    /* 管理人確認 */
+    /* 管理員確認 */
 
     .agreement-section {
         padding: 22px 18px;
@@ -483,6 +493,9 @@ footer {
 
     .checkbox-row {
         font-size: 14px;
+    }
+     .mobile-read-warning {
+        display: block;
     }
 
 

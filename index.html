@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>任務蒐集助理｜管理人協議</title>
+    <title>任務蒐集助理｜管理員協議</title>
 
     <meta
         name="description"
@@ -78,11 +78,11 @@
 
             <p>
                 本協議適用於申請、邀請或同意本機器人加入
-                LINE 群組之群組管理人（以下簡稱「管理人」）。
+                LINE 群組之群組管理員（以下簡稱「管理員」）。
             </p>
 
             <p>
-                管理人於邀請或同意本機器人加入群組前，
+                管理員於邀請或同意本機器人加入群組前，
                 應閱讀並瞭解本協議及本服務之
                 <a
                         href="https://privacy-policy-nu-ten.vercel.app/"
@@ -130,22 +130,22 @@
 
 
         <!-- =========================
-             第三部分：管理人責任
+             第三部分：管理員責任
         ========================== -->
 
         <section>
 
             <h2>
-                三、管理人責任
+                三、管理員責任
             </h2>
 
             <p>
-                管理人了解，本機器人加入群組後，
+                管理員了解，本機器人加入群組後，
                 可能接收及處理群組中與本服務相關之訊息。
             </p>
 
             <p>
-                管理人同意：
+                管理員同意：
             </p>
 
             <ul>
@@ -201,13 +201,13 @@
 
 
         <!-- =========================
-             第五部分：管理人確認
+             第五部分：管理員確認
         ========================== -->
 
         <section class="agreement-section">
 
             <h2>
-                五、管理人確認
+                五、管理員確認
             </h2>     
         <div class="form-group">
 
@@ -224,7 +224,7 @@
         <div class="form-group">
 
             <label for="managerName">
-                管理人姓名
+                管理員姓名
             </label>
 
             <input
@@ -236,17 +236,6 @@
 
         </div>
 
-
-            <!-- 閱讀完成提示 -->
-
-            <p
-                id="readMessage"
-                class="read-message"
-            >
-                請先閱讀完整隱私權政策。
-            </p>
-
-
             <!-- 同意 checkbox -->
 
             <label class="checkbox-row">
@@ -255,12 +244,15 @@
                     type="checkbox"
                     id="agreeCheckbox"
                     disabled
+                    title="請先閱讀完整隱私權政策"
                 >
 
                 <span>
                     我已閱讀、瞭解並同意本協議及
                     <a
                         href="https://privacy-policy-nu-ten.vercel.app/?from=agreement"
+                        target="_blank"
+            rel="noo    pener noreferrer"
                         class="policy-button"
                         onclick="unlockAgreement()"
                     >
@@ -269,6 +261,12 @@
                 </span>
 
             </label>
+            <p
+                id="mobileReadWarning"
+                class="mobile-read-warning"
+            >
+                🔒 請先閱讀完整隱私權政策後，才能勾選。
+            </p>
 
 
             <!-- 送出 -->
@@ -563,7 +561,7 @@
                 if (!name) {
 
                     alert(
-                        "請輸入管理人姓名。"
+                        "請輸入管理員姓名。"
                     );
 
                     return;
